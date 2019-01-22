@@ -14,6 +14,11 @@ urlpatterns = [
     path('author/', views.AuthorListView.as_view(), name='authors')
 ]
 
+urlpatterns += [
+    path('mybooks/', views.LoadedBooksByUserListView.as_view(), name='my-borrowed'),
+    path('borrowed/', views.LoanedBookAllListView.as_view(), name='all-borrowed')
+]
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
