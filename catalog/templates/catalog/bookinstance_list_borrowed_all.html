@@ -7,7 +7,7 @@
   {% if borrowed_books %}
     {% for borrowed_book in borrowed_books %}
       <li class="{% if borrowed_book.is_overdue %}text-danger{% endif %}">
-        <a href="{% url 'book-detail' borrowed_book.book.pk %}">{{borrowed_book.book.title}}</a> ({{ borrowed_book.due_back }}) {% if user.is_staff %}- {{ borrowed_book.borrower }}{% endif %} 
+        <a href="{% url 'book-detail' borrowed_book.book.pk %}">{{borrowed_book.book.title}}</a> ({{ borrowed_book.due_back }}) {% if user.is_staff %}- {{ borrowed_book.borrower }}{% endif %} {% if perms.catalog.can_mark_returned %}- <a href="{% url 'renew-book-librarian' borrowed_book.id %}">Renew</a>  {% endif %}
       </li>
     {% endfor %}
   {% else %}
