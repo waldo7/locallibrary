@@ -6,11 +6,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import permission_required
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.utils.translation import ugettext_lazy as _
 
 
 from catalog.models import Book, Author, BookInstance, Genre
-from catalog.forms import RenewBookForm, RenewBookModelForm
-
+from catalog.forms import RenewBookForm, RenewBookModelForm, AuthorForm
 # Create your views here.
 
 
@@ -109,3 +111,21 @@ def renew_book_librarian(request, pk):
     }
 
     return render(request, 'catalog/book_renew_librarian.html', context)
+
+
+class AuthorCreate(CreateView):
+    model = Author
+    initial = {'date_of_death': '05/01/2018'}
+
+    form_class = AuthorForm
+
+
+class AuthorUpdate(UpdateView):
+    model = Author
+    # fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+    form_class = AuthorForm
+
+
+class AuthorDelete(DeleteView):
+    model = Author
+    success_url = reverse_lazy('authors')
