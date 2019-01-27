@@ -4,6 +4,7 @@ from django.urls import re_path
 import os
 from django.urls import path
 
+
 from . import views
 
 urlpatterns = [
@@ -39,6 +40,7 @@ urlpatterns += [
     path('book/<int:pk>/delete/',
          views.BookDelete.as_view(), name='book_delete'),
 ]
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

@@ -1,3 +1,4 @@
+from django.shortcuts import render_to_response
 import datetime
 
 from django.shortcuts import render, get_object_or_404
@@ -116,7 +117,7 @@ def renew_book_librarian(request, pk):
 class AuthorCreate(CreateView):
     model = Author
     initial = {'date_of_death': '05/01/2018'}
-
+    permission_required = 'catalog.can_mark_returned'
     form_class = AuthorForm
 
 
@@ -124,24 +125,40 @@ class AuthorUpdate(UpdateView):
     model = Author
     # fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
     form_class = AuthorForm
+    permission_required = 'catalog.can_mark_returned'
 
 
 class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
+    permission_required = 'catalog.can_mark_returned'
 
 
-class BookCreate(CreateView):
+class BookCreate(PermissionRequiredMixin, CreateView):
     model = Book
     fields = '__all__'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class BookUpdate(UpdateView):
     model = Book
     # fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
     fields = '__all__'
+    permission_required = 'catalog.can_mark_returned'
 
 
 class BookDelete(DeleteView):
     model = Book
     success_url = reverse_lazy('books')
+    permission_required = 'catalog.can_mark_returned'
+
+
+def error_403(request, exception):
+    context = {'exception': exception}
+    return render(request, 'catalog/error403.html', status=403, context=context)
+
+
+# def error_403(request, exception, template_name="catalog/error403.html"):
+#     response = render_to_response(template_name)
+#     response.status_code = 403
+#     return response

@@ -19,6 +19,8 @@ from django.urls import include
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+# from catalog import views
+# from django.conf.urls import handler403
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,5 +37,7 @@ urlpatterns += [
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
+
+handler403 = "catalog.views.error_403"
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
